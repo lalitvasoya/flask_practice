@@ -12,7 +12,10 @@ pipeline {
         }
         stage("deploy"){
             steps {
-                echo 'docker-compose up -d!'
+                sh '''
+                cd $WORKSPACE/application
+                docker-compose up -d
+               '''
             }
         }
     }
