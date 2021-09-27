@@ -6,7 +6,7 @@ pipeline {
                 echo 'Building the ml backend application!'
                 sh '''
                     cd $WORKSPACE/application
-                    docker-compose --build
+                    docker-compose build
                 '''
             }
         }
