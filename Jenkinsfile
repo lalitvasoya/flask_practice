@@ -6,19 +6,13 @@ pipeline {
                 echo 'Building the ml backend application!'
                 sh '''
                     cd $WORKSPACE/application
-                    docker-compose up --build
+                    docker-compose --build
                 '''
-            }
-        }
-        stage("test"){
-            steps {
-                echo 'Tesing the application!'
-                echo 'Tested!'
             }
         }
         stage("deploy"){
             steps {
-                echo 'Deploying the application!'
+                echo 'docker-compose up -d!'
             }
         }
     }
