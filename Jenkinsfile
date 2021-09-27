@@ -3,8 +3,9 @@ pipeline {
     stages {
         stage("build") {
             steps {
-                echo 'Build the application!'
-                echo 'Application build!'
+                echo 'Building the ml backend application!'
+                sh 'cd $WORKSPACE/application'
+                sh 'docker-compose up --build'
             }
         }
         stage("test"){
