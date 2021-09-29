@@ -8,12 +8,12 @@ pipeline {
         }
         stage("CHECK-linting") {
             steps {
-                sh '/script/check_linting.sh'
+                // sh '/script/check_linting.sh'
             }
         }
         stage("TEST"){
             steps {
-                sh '/script/check_linting.sh'
+                // sh '/script/check_linting.sh'
             }
         }
         stage("Deploy"){
