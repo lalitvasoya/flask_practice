@@ -8,11 +8,13 @@ pipeline {
         }
         stage("CHECK-linting") {
             steps {
+                echo "Linting"
                 // sh '/script/check_linting.sh'
             }
         }
         stage("TEST"){
             steps {
+                echo "Testing"
                 // sh '/script/check_linting.sh'
             }
         }
