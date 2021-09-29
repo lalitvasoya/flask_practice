@@ -3,20 +3,22 @@ pipeline {
     stages {
         stage("BUILD") {
             steps {
-                echo 'Docker build and up the application!'
                 sh '/script/build.sh'
             }
         }
         stage("CHECK-linting") {
             steps {
-                echo 'Check linting in the application!'
                 sh '/script/check_linting.sh'
             }
         }
         stage("TEST"){
             steps {
-                echo 'Testing the application'
                 sh '/script/check_linting.sh'
+            }
+        }
+        stage("Deploy"){
+            steps{
+                sh '/script/deploy.sh'
             }
         }
     }
