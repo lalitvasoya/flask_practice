@@ -1,22 +1,29 @@
 pipeline {
     agent any
     stages {
-        stage("build") {
+        stage("BUILD") {
             steps {
-                echo 'Building the ml backend application!'
-                sh '''
-                    cd $WORKSPACE/application
-                    docker-compose build
-                '''
+                echo 'Docker build and up the application!'
+                sh 'source /script/build.sh'
             }
         }
-        stage("deploy"){
+        stage("CHECK-linting") {
             steps {
-                sh '''
-                cd $WORKSPACE/application
-                docker-compose up -d
-               '''
+                echo 'Check linting in the application!'
+                sh 'source /script/check_linting.sh'
             }
+        }
+        stage("TEST"){
+            steps {
+                echo 'Testing the application'
+                sh 'source /script/check_linting.sh'
+            }
+        }
+    }
+    post{
+        always{
+            echo 'Docker stop application'
+            sh 'docker stop flask-practice'
         }
     }
 }
