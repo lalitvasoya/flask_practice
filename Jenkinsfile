@@ -20,7 +20,9 @@ pipeline {
         }
         stage("Deploy"){
             steps{
-                sh '/script/deploy.sh'
+                withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                    sh '/script/deploy.sh'
+                }
             }
         }
     }
