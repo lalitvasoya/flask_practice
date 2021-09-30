@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from app.views import  ApiTest
+from app.views import ApiTest
 
 research_routes = Blueprint('research_routes', __name__)
 

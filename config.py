@@ -27,7 +27,6 @@ POSTGRES_URI = os.getenv("POSTGRES_URI", "postgres+psycopg2://postgres:postgres@
 # ARTICLE_SUMMARY_WORDS = int(os.getenv("ARTICLE_SUMMARY_WORDS", 100))
 
 
-
 class Config:
     DEBUG = False
     TESTING = False
