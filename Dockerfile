@@ -1,8 +1,8 @@
 # demo docker with jenkins
 FROM python:3.8
 
-COPY requirements.txt /flask-structure/
+WORKDIR /flask-structure
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY . /flask-structure
-WORKDIR /flask-structure
