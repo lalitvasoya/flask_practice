@@ -22,7 +22,7 @@ pipeline {
             steps{
                 withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]){
                     sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
-                    sh '/script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD'
+                    sh 'bash /script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD'
                 }
             }
         }
@@ -44,5 +44,4 @@ def notificationSend(){
             <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
         recipientProviders: [developers(), buildUser()],
     )
-    echo "Notification sent"
 }
