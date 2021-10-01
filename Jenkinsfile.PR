@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage("BUILD") {
+            steps {
+                sh '/script/build.sh'
+            }
+        }
+        stage("CHECK-linting") {
+            steps {
+                echo "Linting"
+                sh '/script/check_linting.sh'
+            }
+        }
+        stage("TEST"){
+            steps {
+                echo "Testing"
+                sh '/script/check_linting.sh'
+            }
+        }
+    }
+    post{
+        always{
+            echo 'Docker stop application'
+            sh 'docker stop flask-practice'
+            notificationSend()
+        }
+    }
+}
+
+def notificationSend(){
+    emailext (
+        attachLog: true,
+        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+        recipientProviders: [developers(), buildUser()],
+    )
+}

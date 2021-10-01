@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.idea
+logs/
+env.sh
+celerybeat-schedule
+.vscode
+/.env
