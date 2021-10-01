@@ -4,6 +4,7 @@ pipeline {
         stage("BUILD") {
             steps {
                 echo "BRANCH_NAME=${env.BRANCH_NAME} : GIT_BRANCH=${env.GIT_BRANCH} : GIT_LOCAL_BRANCH=${env.GIT_LOCAL_BRANCH} : CHANGE_ID=${env.CHANGE_ID} : CHANGE_URL=${env.CHANGE_URL} : CHANGE_AUTHER=${env.CHANGE_AUTHER} : CHANGE_TITLE=${env.CHANGE_TITLE} ${env}"
+                echo "ghprbPullTitle=${ghprbPullTitle}"
                 sh '/script/build.sh'
             }
         }
