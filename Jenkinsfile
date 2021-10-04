@@ -34,6 +34,7 @@ pipeline {
             echo 'Docker stop application'
             sh 'docker stop flask-practice'
             notificationSend()
+            googleChatNotifation()
         }
     }
 }
@@ -45,5 +46,13 @@ def notificationSend(){
         body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
             <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
         recipientProviders: [developers(), buildUser()],
+    )
+}
+
+def googleChatNotifation(){
+    googlechatnotification(
+        url: "id:google-chat",
+        message: "${env.JOB_NAME} Done ${env.JOB_NAME}: ${env.BUILD_NUMBER} url: ${env.BUILD_URL}",
+        sameThreadNotification: true
     )
 }
