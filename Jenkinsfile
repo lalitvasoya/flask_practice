@@ -21,7 +21,16 @@ pipeline {
             }
         }
         stage("Deploy"){
+            when { 
+                allOf { 
+                    expression { env.GITHUB_PR_STATE == "CLOSE" }
+                    expression { env.GITHUB_PR_TARGET_BRANCH == "develop" }
+                }
+            }
             steps{
+                echo "-----------${env.GITHUB_PR_STATE}----------------"
+                echo "-----------${env.GITHUB_PR_TARGET_BRANCH}----------------"
+                echo "-----------${env.BRANCH_NAME}----------------"
                 withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]){
                     sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
                     sh 'bash /script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD'
@@ -46,6 +55,7 @@ def notificationSend(){
         body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
             <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
         recipientProviders: [developers(), buildUser()],
+        to: "${env.ghprbActualCommitAuthorEmail}"
     )
 }
 
