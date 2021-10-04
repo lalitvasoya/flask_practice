@@ -28,7 +28,9 @@ pipeline {
                 }
             }
             steps{
-                echo "${BRANCH_NAME}"
+                echo "-----------${env.GITHUB_PR_STATE}----------------"
+                echo "-----------${env.GITHUB_PR_TARGET_BRANCH}----------------"
+                echo "-----------${env.BRANCH_NAME}----------------"
                 withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]){
                     sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
                     sh 'bash /script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD'
