@@ -21,7 +21,7 @@ pipeline {
         stage("Deploy"){
             when {
                 expression {
-                    return env.BRANCH_NAME != 'master';
+                    return sha1 != 'master';
                 }
             }
             steps{
