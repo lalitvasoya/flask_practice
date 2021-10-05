@@ -20,9 +20,7 @@ pipeline {
         }
         stage("Deploy"){
             when {
-                expression {
-                    return sha1 != 'master';
-                }
+                expression { sha1 == 'develop'}
             }
             steps{
                 echo "-----------${sha1}----------------"
