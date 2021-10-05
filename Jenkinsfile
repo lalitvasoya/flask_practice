@@ -19,10 +19,9 @@ pipeline {
             }
         }
         stage("Deploy"){
-            when { 
-                allOf { 
-                    expression { env.GITHUB_PR_STATE == "CLOSE" }
-                    expression { env.GITHUB_PR_TARGET_BRANCH == "develop" }
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master';
                 }
             }
             steps{
