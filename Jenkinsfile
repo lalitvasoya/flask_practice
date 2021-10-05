@@ -20,9 +20,7 @@ pipeline {
         }
         stage("Deploy"){
             when {
-                expression {
-                    return env.BRANCH_NAME != 'master';
-                }
+                expression { sha1 == 'develop'}
             }
             steps{
                 echo "-----------${sha1}----------------"
