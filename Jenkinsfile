@@ -19,16 +19,16 @@ pipeline {
             }
         }
         stage("Deploy"){
-            when { 
-                allOf { 
-                    expression { env.GITHUB_PR_STATE == "CLOSE" }
-                    expression { env.GITHUB_PR_TARGET_BRANCH == "develop" }
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master';
                 }
             }
             steps{
                 echo "-----------${env.GITHUB_PR_STATE}----------------"
                 echo "-----------${env.GITHUB_PR_TARGET_BRANCH}----------------"
                 echo "-----------${env.BRANCH_NAME}----------------"
+                echo "-----------${sha1}----------------"
                 withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]){
                     sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
                     sh 'bash /script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD'
