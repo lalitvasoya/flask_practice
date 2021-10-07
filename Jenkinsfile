@@ -7,7 +7,7 @@ pipeline {
         stage("Pull jenkins script") {
             steps {
                 git(
-                    branch: ${JENKINS_GIT_LTS_BRANCH},
+                    branch: '${JENKINS_GIT_LTS_BRANCH}',
                     credentialsId: 'git-cred',
                     url: 'https://github.com/lalitvasoya/jenkins.git'
                 )
