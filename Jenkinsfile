@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'slave1'}
     environment {
         JENKINS_GIT_LTS_BRANCH = 'feature/master_slave'
     }
@@ -7,7 +7,7 @@ pipeline {
         stage("Pull jenkins script") {
             steps {
                 git(
-                    branch: '${JENKINS_GIT_LTS_BRANCH}',
+                    branch: "${JENKINS_GIT_LTS_BRANCH}",
                     credentialsId: 'git-cred',
                     url: 'https://github.com/lalitvasoya/jenkins.git'
                 )
@@ -28,7 +28,7 @@ pipeline {
         stage("TEST"){
             steps {
                 echo "Testing"
-                sh '${PWD}/jenkins/check_linting.sh'
+                sh '${PWD}/jenkins/test.sh'
             }
         }
         stage("Deploy"){
