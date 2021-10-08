@@ -5,4 +5,4 @@ celery==4.4.5
 python-json-logger==2.0.1
 pytest==6.2.4
 flake8==3.9.2
-coverage==5.4
+pytest-cov==2.12.1
