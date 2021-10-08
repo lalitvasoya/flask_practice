@@ -16,19 +16,19 @@ pipeline {
         }
         stage("BUILD") {
             steps {
-                sh '${PWD}/jenkins/build.sh'
+                sh 'bash ${WORKSPACE}/jenkins/script/build.sh'
             }
         }
         stage("CHECK-linting") {
             steps {
                 echo "Linting"
-                sh '${PWD}/jenkins/check_linting.sh'
+                sh 'bash ${WORKSPACE}/jenkins/script/check_linting.sh'
             }
         }
         stage("TEST"){
             steps {
                 echo "Testing"
-                sh '${PWD}/jenkins/test.sh'
+                sh 'bash ${WORKSPACE}/jenkins/script/test.sh'
             }
         }
         stage("Deploy"){
@@ -42,7 +42,7 @@ pipeline {
                     sshUserPrivateKey(credentialsId: 'connect-key', keyFileVariable: 'KEY')
                     ]){
                     sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
-                    sh 'bash ${PWD}/jenkins/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD $KEY'
+                    sh 'bash ${WORKSPACE}/jenkins/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD $KEY'
                 }
             }
         }
