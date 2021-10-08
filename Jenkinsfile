@@ -42,7 +42,7 @@ pipeline {
                     sshUserPrivateKey(credentialsId: 'connect-key', keyFileVariable: 'KEY')
                     ]){
                     sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
-                    sh 'bash ${WORKSPACE}/jenkins/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD $KEY'
+                    sh 'bash ${WORKSPACE}/jenkins/script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD $KEY'
                 }
             }
         }
