@@ -22,17 +22,17 @@ pipeline {
             }
         }
         stage("Deploy"){
+            agent { label 'flask-practice'}
             when {
                 expression { sha1 == 'develop'}
             }
             steps{
-                agent { label 'flask-practice'}
                 echo "-----------${sha1}----------------"
                 withCredentials([
                     usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD'),
                     // sshUserPrivateKey(credentialsId: 'connect-key', keyFileVariable: 'KEY')
                     ]){
-                    sh 'git pull https://$USERNAME:$PASSWORD@github.com/lalitvasoya/flask_practice.git' 
+                        sh 'docker-compose up --build -d'
                 }
             }
         }
