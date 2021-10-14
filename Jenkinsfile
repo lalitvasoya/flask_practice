@@ -28,12 +28,7 @@ pipeline {
             }
             steps{
                 echo "-----------${sha1}----------------"
-                withCredentials([
-                    usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD'),
-                    // sshUserPrivateKey(credentialsId: 'connect-key', keyFileVariable: 'KEY')
-                    ]){
-                        sh 'docker-compose up --build -d'
-                }
+                sh 'docker-compose up --build -d'
             }
         }
     }
