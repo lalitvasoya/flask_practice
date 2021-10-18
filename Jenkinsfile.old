@@ -4,37 +4,52 @@ pipeline {
         JENKINS_GIT_LTS_BRANCH = 'feature/master_slave'
     }
     stages {
+        stage("Pull jenkins script") {
+            steps {
+                git(
+                    branch: "${JENKINS_GIT_LTS_BRANCH}",
+                    credentialsId: 'git-cred',
+                    url: 'https://github.com/lalitvasoya/jenkins.git'
+                )
+                checkout scm
+            }
+        }
         stage("BUILD") {
             steps {
-                sh 'docker-compose up --build -d'
+                sh 'bash ${WORKSPACE}/jenkins/script/build.sh'
             }
         }
         stage("CHECK-linting") {
             steps {
                 echo "Linting"
-                sh 'docker exec -i flask-practice bash -c "flake8"'
+                sh 'bash ${WORKSPACE}/jenkins/script/check_linting.sh'
             }
         }
         stage("TEST"){
             steps {
                 echo "Testing"
-                sh 'docker exec -i flask-practice bash -c "pytest"'
+                sh 'bash ${WORKSPACE}/jenkins/script/test.sh'
             }
         }
         stage("Deploy"){
-            agent { label 'flask-practice'}
             when {
                 expression { sha1 == 'develop'}
             }
             steps{
-                echo "Deploying the ${sha1} branch on server"
-                sh 'docker-compose up --build -d'
+                echo "-----------${sha1}----------------"
+                withCredentials([
+                    usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD'),
+                    sshUserPrivateKey(credentialsId: 'connect-key', keyFileVariable: 'KEY')
+                    ]){
+                    sh 'echo "$GITHUB_USERNAME $GITHUB_PASSWORD $GIT_LOCAL_BRANCH"'               
+                    sh 'bash ${WORKSPACE}/jenkins/script/deploy.sh $GITHUB_USERNAME $GITHUB_PASSWORD $KEY'
+                }
             }
         }
     }
     post{
         always{
-            echo 'Docker stop application...'
+            echo 'Docker stop application'
             sh 'docker stop flask-practice'
             notificationSend()
             googleChatNotifation()
