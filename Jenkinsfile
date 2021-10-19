@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'slave1'}
     triggers {
-        // for leting know jenkins first time to trigger build on push
+        // for leting know jenkins first time to trigger build on push/commit
         githubPush()
     }
     environment {
