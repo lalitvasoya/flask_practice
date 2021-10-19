@@ -1,5 +1,8 @@
 pipeline {
     agent { label 'slave1'}
+    triggers {
+        githubPush()
+    }
     environment {
         JENKINS_GIT_LTS_BRANCH = 'feature/master_slave'
     }
