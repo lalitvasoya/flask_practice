@@ -27,7 +27,7 @@ pipeline {
                 expression { sha1 == 'develop'}
             }
             steps{
-                echo "Deploying the ${sha1} branch on server"
+                echo "Deploying the ${sha1} branch on server..."
                 sh 'docker-compose up --build -d'
             }
         }
