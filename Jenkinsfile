@@ -1,9 +1,5 @@
 pipeline {
     agent { label 'slave1'}
-    triggers {
-        // for leting know jenkins first time to trigger build on push
-        githubPush()
-    }
     environment {
         JENKINS_GIT_LTS_BRANCH = 'feature/master_slave'
     }
